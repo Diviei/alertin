@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Alertín v0.1</title>
+    <meta name="description" content="Bla de blas">
+    <meta name="author" content="Diviei">
+    <!—[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]—>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body { padding: 20px; }
+    </style>
+    <link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <!--<script src="/static/js/bootstrap-button.js"></script>
+    <script src="/static/js/bootstrap-popover.js"></script>
+    <script src="/static/js/bootstrap-tooltip.js"></script>
+    <script src="/static/js/bootstrap-modal.js"></script>-->
+    <script src="/static/js/tweets_functions.js"></script>
+  </head>
+  <body>
+    {% include 'nav.html' %}
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div>
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p class="pull-right">
+        <a href="#"></a>
+      </p>
+      <p>
+        <p><a href="#"></p>
+      </p>
+    </footer>
+  </body>
+</html>

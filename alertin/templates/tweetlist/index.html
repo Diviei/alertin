@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="alert-info" class="alert" style="display:none;float:right;position:absolute;top:62px;right:40px;opacity:0.9">
+  
+</div>
+
+<table width="auto" class="table table-bordered table-striped table-condensed" style="margin-top: 20px">
+<thead>
+  <tr>
+    <th>Usuario</th>
+    <th width="70%">Texto</th>
+    <th width="120">Cliente</th>
+    <th width="120">Categoría</th>
+    <th style="text-align:center;">-</th>
+  </tr>
+</thead>
+<tbody>
+{% for tweet in tweets %}
+  <tr>
+    <td class="tweet_row" style="vertical-align:middle;text-align:center;">
+      <a target="_BLANK" href="https://twitter.com/#!/{{tweet.author}}/status/{{tweet.tweet_id}}">
+      	@{{ tweet.author }}
+      </a>
+    </td>
+    <td style="vertical-align:middle">
+      {{ tweet.text }}
+    </td>
+    <td style="vertical-align:middle">
+      {{ tweet.client }}
+    </td>
+    <td style="vertical-align:middle;" NOWRAP>
+    	<div class="btn-group dropdown">
+          <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="dropdown-text">{{ tweet.category }}</span> <span class="caret"></span></button>
+          <ul class="dropdown-menu pull-right">
+          {% for category in categories %}
+            <li onclick="changeTweetCategory(this, {{ tweet.id }}, {{ category.id }})"><a href="#">{{ category.text }}</a></li>
+          {% endfor %}
+          </ul>
+        </div>
+
+    </td>
+    <td><button onclick="showSendTweetResponseDialog('@{{ tweet.author }}','{{ tweet.text }}')" class="btn"><i class="icon-envelope"></i></button></td>
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+
+<div style="margin:0" class="pagination">
+	<ul>
+		{% if tweets.has_previous %}
+			<li><a href="?page={{ tweets.previous_page_number }}">←</a></li>
+			<li><a href="?page=1">1</a></li>
+		{% else %}
+			<li class="disabled"><a href="?page={{ tweets.previous_page_number }}">←</a></li>
+		{% endif %}
+
+
+			
+		{% if tweets.number > 2 %}
+			{% if tweets.number > 3%}
+				<li class="disabled"><a href="#">...</a></li>
+			{% endif %}
+			<li><a href="?page={{ tweets.previous_page_number }}">{{ tweets.previous_page_number }}</a></li>
+		{% endif %}
+
+		<li class="active"><a href="?page={{ tweets.number }}">{{ tweets.number }}</a></li>
+
+		{% if tweets.has_next %}
+			{% if tweets.next_page_number != tweets.paginator.num_pages %}
+				<li><a href="?page={{ tweets.next_page_number }}">{{ tweets.next_page_number }}</a></li>
+				<li class="disabled"><a href="#">...</a></li>
+			{% else %}
+
+			{% endif %}
+			<li><a href="?page={{ tweets.paginator.num_pages }}">{{ tweets.paginator.num_pages }}</a></li>
+		{% endif %}
+
+		{% if tweets.has_next %}
+			<li><a href="?page={{ tweets.next_page_number }}">→</a></li>
+		{% else %}
+			<li class="disabled"><a href="?page={{ tweets.next_page_number }}">→</a></li>
+		{% endif %}
+	</ul>
+  <button onclick="$(this).button('loading');document.location.href = document.location.href;" 
+  data-loading-text="Recargando..."
+  style="float:right" class="btn btn-primary">Recargar</button>
+</div>
+
+<div class="modal" id="modal-send-tweet-response" style="display:none">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">&times;</button>
+    <h3>Enviar respuesta a <span class="modal-author-username"></span></h3>
+  </div>
+  <div class="modal-body">
+    <form>
+      <fieldset>
+        <div class="control-group">
+          <div class="controls">
+            <blockquote>
+              <p>
+                <i><span class="modal-author-tweet-text"></span></i>
+              </p>
+              <small><b><span class="modal-author-username"></span></b></small>
+            </blockquote>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="modal-response-textarea"><b>Tweet</b></label>
+          <div class="controls">
+            <textarea autocomplete="off" id="modal-response-textarea" style="width:520px;height:75px;" maxlength="140"></textarea>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal">Cerrar</button>
+    <button id="modal-send-tweet-response-button" class="btn btn-primary" data-loading-text="Enviando..." data-complete-text="Tweet enviado!">Enviar tweet</button>
+  </div>
+</div>
+{% endblock %}

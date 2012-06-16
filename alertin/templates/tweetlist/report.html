@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+google.load("visualization", "1", {packages:["corechart"]});
+google.setOnLoadCallback(drawChart);
+function drawChart()
+{
+  var data = google.visualization.arrayToDataTable([
+    ['category', 'percent'],
+    {% for key, value in abs_stats.items %}
+      ['{{key}}', {{value}}],
+    {% endfor %}
+  ]);
+
+  var options = {
+    title: 'Porcentajes globales'
+  };
+
+  var chart = new google.visualization.PieChart(document.getElementById('porcentajes_globales'));
+  chart.draw(data, options);
+}
+</script>
+
+
+<div class="well">
+  <div class="page-header" style="margin-top:0;padding-bottom:5px">
+    <h1>{{ c.name }}</h1>
+  </div>
+
+  <div class="span3" style="margin:0;">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th colspan="2"><h4>Estadísticas absolutas</h4></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td>Total</td>
+            <td>{{abs_total}}</td>
+          </tr>
+        {% for key, value in abs_stats.items %}
+          <tr>
+            <td>{{key}}</td>
+            <td>{{value}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="span3">
+    <div id="porcentajes_globales" style="width: 400px; height: 200px;"></div>
+  </div>
+
+  <div style="clear:both"></div>
+</div>
+
+{% endblock %}

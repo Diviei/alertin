@@ -1,0 +1,5 @@
+python manage.py reset <your_app>
+
+python manage.py dumpdata <your_app> > temp_data.json
+python manage.py reset <your_app>
+python manage.py loaddata temp_data.json

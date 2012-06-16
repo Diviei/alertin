@@ -1,0 +1,47 @@
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="/">Alertín v0.1</a>
+      <ul class="nav">
+        <li>
+          <a href="/admin/" target="_BLANK">
+            Admin
+          </a>
+        </li>
+        <li class="divider-vertical"></li>
+        <li {% if client_id == '' %} class="active" {% endif %}>
+          <a href="/">
+            Todos los tweets
+          </a>
+        </li>
+
+        {% for client in clients %}
+            <li {% if client_id == client.id %} class="active" {% endif %}>
+              <a href="/client/{{ client.id }}">
+                {{ client.name }}
+                <span class="badge badge-success">{{ client.getTotalTweets }}</span>
+              </a>
+            </li>
+        {% endfor %}
+      </ul>
+
+      <ul class="nav pull-right">
+        <li>
+          <button style="margin-top:6px;" onclick="getTweetsFromTwitter(this)" data-loading-text="Cargando..." class="btn btn-primary">
+            Cargar Tweets
+          </button>
+        </li>
+        
+        <li class="divider-vertical"></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Informes <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            {% for client in clients %}
+              <li><a href="/report/{{client.id}}">{{client.name}}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
