@@ -4,11 +4,6 @@ from django.http import HttpResponse
 from tweetlist.models import Client, Filter, TweetCategory, Tweet
 import subprocess
 import os
-import sys
-from datetime import datetime
-
-#Twitter library
-import twitter
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
@@ -80,43 +75,7 @@ def changeTweetCategory(request, tweet_id, category_id):
 	return HttpResponse(response)
 
 def getTweetsFromTwitter(request):
-	api = twitter.Api()
-	
-	"""
-	def GetSearch(self,
-	                term=None,
-	                geocode=None,
-	                since_id=None,
-	                per_page=15,
-	                page=1,
-	                lang="sp",
-	                show_user="true",
-	                query_users=False):
-	"""
-	
-	#TODO: Coger lista de palabras
-	words = Filter.objects.all()
-	
-	#Coger resultado de las palabras
-	for word in words:
-		results = api.GetSearch(word.text, None, None, 1000, 1, 'es')
-		client_id = word.client_id
-	
-		for result in results:
-			text 		= result.GetText()
-			username 	= result.GetUser().GetScreenName()
-			date 		= datetime.fromtimestamp(result.GetCreatedAtInSeconds())
-			tweet_id 	= result.GetId()
-			
-			try:
-				t = Tweet(None)
-				t.author 	= username
-				t.text 		= text
-				t.date 		= date
-				t.client_id = client_id
-				t.tweet_id 	= tweet_id
-				t.save()
-			except Exception, e:
-				print e
+	command = "python "+os.path.join(os.path.dirname(__file__), '../daemon.py').replace('\\','/')
+	os.system(command)
 
-	return HttpResponse("done")
+	return HttpResponse(command)
