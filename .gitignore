@@ -2,5 +2,7 @@
 *.pot
 *.pyc
 *.DS_Store
+initial_data.json
+json_list.json
 local_settings.py
 database
