@@ -1,3 +1,5 @@
+#!/usr/bin/eval PYTHONPATH=/home/diviei/modules python
+
 #Standar libraries
 import os
 import sys

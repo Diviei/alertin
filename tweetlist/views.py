@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from tweetlist.models import Client, Filter, TweetCategory, Tweet
 import subprocess
 import os
+import sys
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
@@ -75,6 +76,7 @@ def changeTweetCategory(request, tweet_id, category_id):
 	return HttpResponse(response)
 
 def getTweetsFromTwitter(request):
+	sys.path.append('/home/diviei/modules')
 	command = "python "+os.path.join(os.path.dirname(__file__), '../daemon.py').replace('\\','/')
 	os.system(command)
 
