@@ -4,6 +4,11 @@ from django.http import HttpResponse
 from tweetlist.models import Client, Filter, TweetCategory, Tweet
 import subprocess
 import os
+import sys
+from datetime import datetime
+
+#Twitter library
+import twitter
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
@@ -75,11 +80,6 @@ def changeTweetCategory(request, tweet_id, category_id):
 	return HttpResponse(response)
 
 def getTweetsFromTwitter(request):
-	import sys
-	from datetime import datetime
-	#Twitter library
-	import twitter
-	
 	api = twitter.Api()
 	
 	"""
