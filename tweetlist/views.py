@@ -75,6 +75,8 @@ def changeTweetCategory(request, tweet_id, category_id):
 	return HttpResponse(response)
 
 def getTweetsFromTwitter(request):
+	pythonPath = "PYTHONPATH = ~/modules" 
+	os.system(pythonPath)
 	command = "python "+os.path.join(os.path.dirname(__file__), '../daemon.py').replace('\\','/')
 	os.system(command)
 
